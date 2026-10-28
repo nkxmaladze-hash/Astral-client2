@@ -1,0 +1,22 @@
+name: Build Astral Client
+on:
+  push:
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+      - run: |
+          unzip -q Astral-Client.zip
+          cd Open-Volt-main
+          chmod +x gradlew
+          ./gradlew build
+      - uses: actions/upload-artifact@v4
+        with:
+          name: astral-client-jar
+          path: Open-Volt-main/build/libs/*.jar
